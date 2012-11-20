@@ -10,7 +10,10 @@ A working pi, with SSH installed and running (as it is by default)
 You'll need to know its IP address or hostname.
 
 Python 2.5+
-[Fabric](http://fabfile.org) and Cuisine
+
+[Fabric](http://fabfile.org) 
+
+[Cuisine](https://github.com/sebastien/cuisine)
 
 
 Setup
@@ -31,18 +34,30 @@ To get a list of available commands:
     fab -l
 
 At the moment these are
-* deploy               Installs pretty much everything to a bare Pi.
-* install\_firewall     Installs ufw and opens ssh access to everyone.
-* install\_motd         Installs a succulent ascii-art MOTD. In colour!
-* install\_mpd          Installs MPD and configures it for the 3.5mm audio output.
-* install\_my\_dotfiles  Copies down my dotfiles repository from GitHub.
-* install\_usb\_wifi     Configures a generic USB WiFi device for DHCP.
-* open\_port            Adds a firewall rule to allow EVERYONE access to the specified port.
-* setup\_packages       Installs basic Raspbian package requirements.
-* setup\_python         Installs virtualenvwrapper and some common global python packages.
-* status               General stats about the Pi.
-* update\_firmware      Updates firmware. See https://github.com/Hexxeh/rpi-update for more.
-* upgrade\_packages     Does a full apt-get upgrade.
+* deploy
+  Installs pretty much everything to a bare Pi.
+* install\_firewall     
+  Installs ufw and opens ssh access to everyone.
+* install\_motd         
+  Installs a succulent ascii-art MOTD. In colour!
+* install\_mpd          
+  Installs MPD and configures it for the 3.5mm audio output.
+* install\_my\_dotfiles  
+  Copies down my dotfiles repository from GitHub.
+* install\_usb\_wifi     
+  Configures a generic USB WiFi device for DHCP.
+* open\_port            
+  Adds a firewall rule to allow EVERYONE access to the specified port.
+* setup\_packages       
+  Installs basic Raspbian package requirements.
+* setup\_python         
+  Installs virtualenvwrapper and some common global python packages.
+* status               
+  General stats about the Pi.
+* update\_firmware      
+  Updates firmware. See https://github.com/Hexxeh/rpi-update for more.
+* upgrade\_packages     
+  Does a full apt-get upgrade.
 
 To specify your hostname, either edit the fabfile, use the _-H_ switch on the 
 command line, or fabric will prompt you when you run a command.
@@ -78,3 +93,8 @@ License
 -------
 
 MIT. See LICENCE file.
+
+Disclaimer
+----------
+
+If you break your Pi with my script, I feel bad for you son.
