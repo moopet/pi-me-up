@@ -355,7 +355,6 @@ def deploy():
     puts(green("Starting deployment"))
     upgrade_packages()
     setup_packages()
-    install_usb_wifi()
     install_firewall()
     setup_python()
     install_my_dotfiles()
