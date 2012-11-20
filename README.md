@@ -29,38 +29,47 @@ That's all.
 Usage
 -----
 
+To specify your hostname, either edit the fabfile, use the _-H_ switch on the 
+command line, or fabric will prompt you when you run a command.
+
 To get a list of available commands:
 
     $ fab -l
 
 At the moment these are
-* deploy
-  Installs pretty much everything to a bare Pi.
-* install\_firewall     
-  Installs ufw and opens ssh access to everyone.
-* install\_motd         
-  Installs a succulent ascii-art MOTD. In colour!
-* install\_mpd          
-  Installs MPD and configures it for the 3.5mm audio output.
-* install\_my\_dotfiles  
-  Copies down my dotfiles repository from GitHub.
-* install\_usb\_wifi     
-  Configures a generic USB WiFi device for DHCP.
-* open\_port            
-  Adds a firewall rule to allow EVERYONE access to the specified port.
-* setup\_packages       
-  Installs basic Raspbian package requirements.
-* setup\_python         
-  Installs virtualenvwrapper and some common global python packages.
-* status               
-  General stats about the Pi.
-* update\_firmware      
-  Updates firmware. See https://github.com/Hexxeh/rpi-update for more.
-* upgrade\_packages     
-  Does a full apt-get upgrade.
-
-To specify your hostname, either edit the fabfile, use the _-H_ switch on the 
-command line, or fabric will prompt you when you run a command.
+### deploy
+Installs pretty much everything to a bare Pi.
+### install\_firewall     
+Installs ufw and opens ssh access to everyone.
+### install\_motd         
+Installs a succulent ascii-art MOTD. In colour!
+The raspberry was by RPi forum user b3n, taken from
+[the forum](http://www.raspberrypi.org/phpBB3/viewtopic.php?f=2&t=5494).
+### install\_mpd          
+Installs MPD and configures it for the 3.5mm audio output.
+Allows passwordless connection from any host on port 6600.
+### install\_my\_dotfiles  
+Copies down my [dotfiles](http://github.com/moopet/dotfiles) repository from GitHub.
+Installs only those files which might be relevant to the Raspberry Pi.
+### install\_usb\_wifi     
+Configures a generic USB WiFi device for DHCP.
+This overwrites /etc/network/interfaces, so any changes you have made
+will be lost;  eth0 is reset to DHCP.
+usage: install_usb_wifi:ssid=<MY_SSID>,psk=<MY_PSK>
+### open\_port            
+Adds a firewall rule to allow EVERYONE access to the specified port.
+### setup\_packages       
+Installs basic Raspbian package requirements.
+### setup\_python         
+Installs virtualenvwrapper and some common global python packages.
+### status               
+General stats about the Pi.
+### update\_firmware      
+Updates firmware. See [Hexxeh's GitHub repository](https://github.com/Hexxeh/rpi-update)
+for more information.
+### upgrade\_packages     
+Does a full apt-get upgrade.
+If force is set to true, it will not prompt for confirmation.
 
 Examples
 --------
@@ -94,7 +103,7 @@ License
 
 MIT. See LICENCE file.
 
-Disclaimer
-----------
+Watertight Disclaimer
+---------------------
 
 If you break your Pi with my script, I feel bad for you son.
