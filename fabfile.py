@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # vim: set fileencoding=UTF-8 :
 
-from cuisine import file_exists, dir_exists, file_write, text_strip_margin
+from cuisine import (file_exists, dir_exists, file_write, text_strip_margin,
+    package_upgrade, package_clean)
 from cuisine import package_ensure as _package_ensure
+from cuisine import package_update as _package_update
 from fabric.api import sudo, run, env, hide, cd, task
 from fabric.contrib.files import append
 from fabric.utils import puts
@@ -44,20 +46,19 @@ def sudo_file_write(filename, contents):
         sudo("rm {}".format(temp_file))
 
 
-def update_packages():
-    """ Clean-displaying wrapper for "apt-get update".
-    Doesn"t run more than once per fabric session.
+def package_update():
+    """ Pretty-printing wrapper for package_update
     """
-    if not hasattr(update_packages, "done"):
+    if not hasattr(package_update, "done"):
         puts(green("{} updating packages".format(INDENT)))
         with hide("output", "running"):
-            sudo("apt-get update")
-        update_packages.done = True
+            _package_update()
+        package_update.done = True
 
 
 def package_ensure(package):
     """ Prettier-printing version of cuisine's package_ensure.
-    Doesn't bother to run if it's already been called for this package in
+    Doesn't display anything if it's already been called for this package in
     this fabric session.
     """
     if not hasattr(package_ensure, "checked"):
@@ -188,7 +189,7 @@ def setup_packages():
     """ Installs basic Raspbian package requirements.
     """
     puts(green("Installing packages"))
-    update_packages()
+    package_update()
 
     with hide("running"):
         package_ensure("git-core")
@@ -213,6 +214,13 @@ def setup_packages():
 
 
 @task
+def reboot():
+    """ Reboots. Yup. """
+    puts(red("Rebooting"))
+    sudo("reboot")
+
+
+@task
 def setup_python():
     """ Installs virtualenvwrapper and some common global python packages.
     """
@@ -232,7 +240,7 @@ def update_firmware():
     """ Updates firmware. See https://github.com/Hexxeh/rpi-update for more
     information.
     """
-    update_packages()
+    package_update()
     puts(red("Updating firmware"))
     with hide("output", "running"):
         package_ensure("ca-certificates")
@@ -321,18 +329,14 @@ def install_mpd():
 
 
 @task
-def upgrade_packages(force=None):
-    """ Does a full apt-get upgrade.
-    If force is set to true, it will not prompt for confirmation.
+def upgrade_packages():
+    """ Pretty-printing wrapper for package_upgrade
     """
-    update_packages()
-    if force:
-        puts(red("Upgrading all packages"))
-        with hide("output", "running"):
-            sudo("apt-get upgrade --assume-yes")
-    else:
-        puts(green("Upgrading packages"))
-        sudo("apt-get upgrade")
+    package_update()
+    puts(green("{} upgrading all packages".format(INDENT)))
+    with hide("output", "running"):
+        package_upgrade()
+    package_clean()
 
 
 @task
@@ -349,9 +353,11 @@ def deploy():
     """ Installs pretty much everything to a bare Pi.
     """
     puts(green("Starting deployment"))
+    upgrade_packages()
     setup_packages()
-    setup_python()
+    install_usb_wifi()
     install_firewall()
+    setup_python()
     install_my_dotfiles()
-    install_mpd
+    install_mpd()
     install_motd()
