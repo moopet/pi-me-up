@@ -1,5 +1,5 @@
-pimeup
-======
+pi-me-up
+========
 
 A quick deployment script for the Raspberry Pi.
 
@@ -31,7 +31,7 @@ Usage
 
 To get a list of available commands:
 
-    fab -l
+    $ fab -l
 
 At the moment these are
 * deploy
@@ -82,7 +82,7 @@ file.
 
 For example, if you have eth0 configured with a static IP address and run
 
-    fab install_usb_wifi
+    $ fab install_usb_wifi
 
 Then you'll lose that setting. This isn't a full management suite.
 It's very scrappy, but that's because I haven't finished setting my Pi up how
